@@ -54,15 +54,32 @@
             const a = document.getElementById('bgAudio');
             const overlay = document.getElementById('startOverlay');
 
-            // List of candidate video files (cloud-hosted URLs in order)
+            // Cloudinary base resources (we'll request optimized variants per device)
             const videos = [
-                'https://res.cloudinary.com/rmq5tyne/video/upload/v1784034464/Final__1_1_ukzm3b.mp4',
-                'https://res.cloudinary.com/rmq5tyne/video/upload/v1784034427/Final_1_2_g7a7yg.mp4'
+                {
+                    id: 'Final__1_1_ukzm3b.mp4',
+                    base: 'https://res.cloudinary.com/rmq5tyne/video/upload/',
+                },
+                {
+                    id: 'Final_1_2_g7a7yg.mp4',
+                    base: 'https://res.cloudinary.com/rmq5tyne/video/upload/',
+                }
             ];
             let idx = 0;
 
+            // Build a Cloudinary URL variant depending on viewport size to reduce bandwidth
+            function variantUrl(item){
+                const w = window.innerWidth || document.documentElement.clientWidth;
+                // use smaller widths for mobile/tablet, larger for desktop
+                const size = w <= 480 ? 640 : (w <= 1024 ? 960 : 1280);
+                // q_auto and f_auto let Cloudinary pick best quality/format (webm/hevc when supported)
+                return item.base + 'q_auto,f_auto,w_' + size + '/' + item.id;
+            }
+
+            // Do not set video src on load — defer until user taps to reduce mobile data usage
             function setSrc(){
-                v.src = encodeURI(videos[idx]);
+                const url = variantUrl(videos[idx]);
+                v.src = url;
                 v.load();
             }
 
@@ -107,7 +124,7 @@
                     // Prefer precise URL match for cloud-hosted videos; fall back to index check
                     const cur = v.currentSrc || '';
                     if(!cur) return false;
-                    if(cur.indexOf(videos[1]) !== -1) return true;
+                    if(cur.indexOf(videos[1].id) !== -1) return true;
                     return idx === 1;
                 }catch(e){return false}
             }
@@ -122,9 +139,10 @@
             });
             v.addEventListener('pause', ()=>{ a.pause(); });
 
-            // Initialize with first candidate
-            setSrc();
-            // countdown removed
+            // Do not initialize src here to avoid automatic large downloads on mobile
+            // show a poster image (optional) while waiting for user action
+            v.preload = 'none';
+            v.poster = 'https://res.cloudinary.com/rmq5tyne/video/upload/v1784034464/Final__1_1_ukzm3b.jpg';
 
             window.startInvite = function(){
                 overlay.style.opacity = '0';
@@ -132,7 +150,8 @@
 
                 // Unmute video and start playback; background audio will start automatically when second clip plays
                 v.muted = false;
-                // Ensure current src is loaded before play
+                // Ensure current src is loaded before play (lazy-load if needed)
+                if(!v.src){ setSrc(); }
                 v.play().catch(()=>{});
                 // keep audio paused until second video
                 a.pause();
