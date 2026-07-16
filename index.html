@@ -6,39 +6,162 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invitation</title>
     <style>
-        *{box-sizing:border-box;margin:0;padding:0}
-        html,body{height:100%;background:#000;font-family:system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
-        .media-wrap{position:relative;width:100%;height:100vh;overflow:auto;display:flex;align-items:center;justify-content:center}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html,
+        body {
+            height: 100%;
+            background: #000;
+            font-family: system-ui, Segoe UI, Roboto, 'Helvetica Neue', Arial
+        }
+
+        .media-wrap {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
         /* Default: cover-style fullscreen video */
-        .media-wrap.cover{overflow:hidden}
-        .video-wrapper{position:absolute;inset:0;width:100%;height:100%}
-        video{width:100%;height:100%;object-fit:cover;display:block}
+        .media-wrap.cover {
+            overflow: hidden
+        }
+
+        .video-wrapper {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block
+        }
+
         /* When a video is taller than the viewport, allow scrolling */
-        .media-wrap.scrollable{align-items:flex-start}
-        .media-wrap.scrollable .video-wrapper{position:relative;height:auto}
-        .media-wrap.scrollable video{position:relative;height:auto;object-fit:contain}
+        .media-wrap.scrollable {
+            align-items: flex-start
+        }
+
+        .media-wrap.scrollable .video-wrapper {
+            position: relative;
+            height: auto
+        }
+
+        .media-wrap.scrollable video {
+            position: relative;
+            height: auto;
+            object-fit: contain
+        }
+
         /* Clickable Map Link styling */
-        .map-link{
-            position:absolute;
-            display:none; /* Shown only when second video is active */
-            left:35.19%;
-            width:33.33%;
-            top:57.29%;
-            height:2.08%;
-            background:rgba(255,255,255,0); /* Completely transparent */
-            cursor:pointer;
-            z-index:10;
-            border-radius:24px;
+        .map-link {
+            position: absolute;
+            display: none; /* Shown only when second video is active */
+            left: 35.19%;
+            width: 33.33%;
+            top: 57.29%;
+            height: 2.08%;
+            background-color: #727c56; /* Olive green matching video */
+            border: 2px solid #b5af8b; /* Gold border */
+            border-radius: 100px;
+            color: #ffffff;
+            text-decoration: none;
+            font-family: Georgia, serif;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-sizing: border-box;
         }
-        .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.45),rgba(0,0,0,0.6));display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;z-index:5}
-        .btn{background:#fff;color:#000;border-radius:28px;padding:14px 28px;font-weight:700;border:none;cursor:pointer;font-size:16px;box-shadow:0 6px 20px rgba(0,0,0,.35)}
-        .muted-note{margin-top:16px;opacity:.85;font-size:14px}
+
+        .map-icon {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+        }
+
+        .map-link:hover {
+            background-color: #7d895f;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+            transform: scale(1.03);
+        }
+
+        .map-link:active {
+            transform: scale(0.98);
+        }
+
+        @media(min-width: 768px) {
+            .map-link {
+                font-size: 18px;
+                letter-spacing: 4px;
+                gap: 10px;
+            }
+            .map-icon {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.6));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            z-index: 5
+        }
+
+        .btn {
+            background: #fff;
+            color: #000;
+            border-radius: 28px;
+            padding: 14px 28px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .35)
+        }
+
+        .muted-note {
+            margin-top: 16px;
+            opacity: .85;
+            font-size: 14px
+        }
+
         /* Responsive adjustments */
-        @media(min-width:1024px){
-            .btn{padding:12px 22px;font-size:15px}
-            .muted-note{font-size:13px}
+        @media(min-width:1024px) {
+            .btn {
+                padding: 12px 22px;
+                font-size: 15px
+            }
+
+            .muted-note {
+                font-size: 13px
+            }
         }
-        @media(max-width:480px){
+
+        @media(max-width:480px) {
             /* small screen tweaks */
         }
     </style>
@@ -49,7 +172,13 @@
         <!-- Background video wrapper with transparent map link overlay -->
         <div class="video-wrapper">
             <video id="bgVideo" playsinline muted preload="auto"></video>
-            <a href="https://www.google.com/maps/search/?api=1&query=Sampada+Festivity,+Anthem+Circle,+Surat" target="_blank" id="mapLink" class="map-link"></a>
+            <a href="https://www.google.com/maps/search/?api=1&query=Sampada+Festivity,+Anthem+Circle,+Surat"
+                target="_blank" id="mapLink" class="map-link">
+                <svg class="map-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <span>MAP</span>
+            </a>
         </div>
 
         <!-- Overlay with tap/click to start audio   and unmute video -->
@@ -67,7 +196,7 @@
     </div>
 
     <script>
-        (function(){
+        (function () {
             const v = document.getElementById('bgVideo');
             const a = document.getElementById('bgAudio');
             const overlay = document.getElementById('startOverlay');
@@ -86,7 +215,7 @@
             let idx = 0;
 
             // Build URL variant (local direct file or optimized Cloudinary variant)
-            function variantUrl(item){
+            function variantUrl(item) {
                 if (!item.base) {
                     return item.id;
                 }
@@ -98,7 +227,7 @@
             }
 
             // Set video src and configure native loop behavior per-clip
-            function setSrc(){
+            function setSrc() {
                 const url = variantUrl(videos[idx]);
                 v.src = url;
                 // Loop only the second video (the invitation details) natively
@@ -107,19 +236,19 @@
                 // Show or hide the map link depending on whether it's the second video
                 const mapLink = document.getElementById('mapLink');
                 if (mapLink) {
-                    mapLink.style.display = (idx === 1) ? 'block' : 'none';
+                    mapLink.style.display = (idx === 1) ? 'flex' : 'none';
                 }
 
                 v.load();
             }
 
             // Detect tall videos and toggle scrollable mode
-            function updateScrollable(){
+            function updateScrollable() {
                 // Use natural video dimensions when available
                 const wrap = document.querySelector('.media-wrap');
                 const vh = window.innerHeight || document.documentElement.clientHeight;
                 // If metadata not loaded yet, we'll check on 'loadedmetadata'
-                if(v.videoHeight && v.videoHeight > vh + 50){
+                if (v.videoHeight && v.videoHeight > vh + 50) {
                     wrap.classList.add('scrollable');
                     wrap.classList.remove('cover');
                 } else {
@@ -132,55 +261,55 @@
             window.addEventListener('resize', updateScrollable);
 
             // If a video fails to load, try the next candidate
-            v.addEventListener('error', ()=>{
+            v.addEventListener('error', () => {
                 console.warn('Video load error for', videos[idx]);
                 idx++;
-                if(idx < videos.length){ setSrc(); v.play().catch(()=>{}); }
+                if (idx < videos.length) { setSrc(); v.play().catch(() => { }); }
             });
 
             // When the first video ends, advance to the second (invitation details) which loops natively
-            v.addEventListener('ended', ()=>{
+            v.addEventListener('ended', () => {
                 if (idx === 0) {
                     idx = 1;
                     setSrc();
-                    v.play().catch(()=>{});
+                    v.play().catch(() => { });
                 }
             });
 
             // Helper: return true when the currently playing video file is the second clip
-            function isSecondVideoPlaying(){
-                try{
+            function isSecondVideoPlaying() {
+                try {
                     const cur = v.currentSrc || '';
-                    if(!cur) return false;
-                    if(cur.indexOf(videos[1].id) !== -1) return true;
+                    if (!cur) return false;
+                    if (cur.indexOf(videos[1].id) !== -1) return true;
                     return idx === 1;
-                }catch(e){return false}
+                } catch (e) { return false }
             }
 
             // Play/pause background audio only when the second video is playing
-            v.addEventListener('play', ()=>{
-                if(isSecondVideoPlaying()){
-                    a.play().catch(()=>{});
+            v.addEventListener('play', () => {
+                if (isSecondVideoPlaying()) {
+                    a.play().catch(() => { });
                 } else {
                     a.pause();
                 }
             });
-            v.addEventListener('pause', ()=>{ a.pause(); });
+            v.addEventListener('pause', () => { a.pause(); });
 
             // Do not initialize src here to avoid automatic large downloads on mobile
             // show a poster image (optional) while waiting for user action
             v.preload = 'none';
             v.poster = 'https://res.cloudinary.com/rmq5tyne/video/upload/v1784034464/Final__1_1_ukzm3b.jpg';
 
-            window.startInvite = function(){
+            window.startInvite = function () {
                 overlay.style.opacity = '0';
                 overlay.style.pointerEvents = 'none';
 
                 // Unmute video and start playback; background audio will start automatically when second clip plays
                 v.muted = false;
                 // Ensure current src is loaded before play (lazy-load if needed)
-                if(!v.src){ setSrc(); }
-                v.play().catch(()=>{});
+                if (!v.src) { setSrc(); }
+                v.play().catch(() => { });
                 // keep audio paused until second video
                 a.pause();
             }
