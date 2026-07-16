@@ -59,7 +59,7 @@
         }
 
         .media-wrap.scrollable video {
-            position: relative;
+            position: relative !important;
             height: auto;
             object-fit: contain
         }
@@ -125,8 +125,10 @@
 
         .overlay {
             position: absolute;
+            /* position: relative; */
+
             inset: 0;
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.6));
+            background: #00000000 !important;
             display: flex;
             flex-direction: column;
             align-items: center;
