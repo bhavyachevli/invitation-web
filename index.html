@@ -69,8 +69,9 @@
             position: absolute;
             display: none;
             /* Shown only when second video is active */
-            left: 35.55%;
-            width: 32.40%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 31.57%;
             top: 57.50%;
             height: 1.77%;
             background-color: #727c56; /* Olive green matching video */
@@ -85,7 +86,7 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            box-shadow: 0 4px 20px rgba(249, 170, 170, 0.748);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             z-index: 10;
             transition: all 0.3s ease;
             cursor: pointer;
@@ -101,11 +102,11 @@
         .map-link:hover {
             background-color: #7d895f;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
-            transform: scale(1.03);
+            transform: translateX(-50%) scale(1.03);
         }
 
         .map-link:active {
-            transform: scale(0.98);
+            transform: translateX(-50%) scale(0.98);
         }
 
         @media(min-width: 768px) {
