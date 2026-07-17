@@ -436,8 +436,8 @@
                 overlay.style.opacity = '0';
                 overlay.style.pointerEvents = 'none';
 
-                // Unmute video and start playback; background audio will start automatically when second clip plays
-                v.muted = false;
+                // Keep video muted for reliable mobile autoplay and browser compatibility
+                v.muted = true;
                 // Ensure current src is loaded before play (lazy-load if needed)
                 if (!v.src) { setSrc(); }
                 v.play().catch(() => { });
