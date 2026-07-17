@@ -60,13 +60,16 @@
 
         .media-wrap.scrollable .video-wrapper {
             position: relative;
-            height: auto
+            width: 100%;
+            height: 888.89vw; /* Exact aspect ratio for 1080x9600 video relative to width */
         }
-
+ 
         .media-wrap.scrollable video {
-            position: relative !important;
-            height: auto;
-            object-fit: contain
+            position: absolute !important;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
         }
 
         /* Clickable Map Link styling */
