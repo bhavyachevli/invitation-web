@@ -396,8 +396,8 @@
             v.preload = 'none';
             v.poster = 'poster.jpg';
 
-            // Countdown Timer Logic (Target Wedding Date: July 23, 2026 17:00:00)
-            const targetDate = new Date('July 23, 2026 17:00:00').getTime();
+            // Countdown Timer Logic (Target Wedding Date: July 23, 2026 17:00:00) - Numeric format for iOS Safari compatibility (month is 0-indexed)
+            const targetDate = new Date(2026, 6, 23, 17, 0, 0).getTime();
 
             function updateCountdown() {
                 const now = new Date().getTime();
