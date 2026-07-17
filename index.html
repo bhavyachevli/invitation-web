@@ -342,16 +342,15 @@
                     videoCountdown.style.display = (idx === 1) ? 'flex' : 'none';
                 }
 
+                updateScrollable();
+
                 v.load();
             }
 
             // Detect tall videos and toggle scrollable mode
             function updateScrollable() {
-                // Use natural video dimensions when available
                 const wrap = document.querySelector('.media-wrap');
-                const vh = window.innerHeight || document.documentElement.clientHeight;
-                // If metadata not loaded yet, we'll check on 'loadedmetadata'
-                if (v.videoHeight && v.videoHeight > vh + 50) {
+                if (idx === 1) {
                     wrap.classList.add('scrollable');
                     wrap.classList.remove('cover');
                 } else {
